@@ -1,4 +1,4 @@
-import 'package:bloc_example_eela/cubit/counter_cubit.dart';
+import 'package:bloc_example_eela/bloc/counter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,7 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CounterCubit(0),
+      // create: (context) => CounterCubit(0),
+      create: (context) => CounterBloc(),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -30,7 +31,8 @@ class MyCounterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<CounterCubit>();
+    // final cubit = context.read<CounterCubit>();
+    final counterBloc = context.read<CounterBloc>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Counter Page'),
@@ -40,7 +42,12 @@ class MyCounterPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('Current Counter Value'),
-            BlocBuilder<CounterCubit, int>(
+            // BlocBuilder<CounterCubit, int>(
+            //   builder: (context, state) {
+            //     return Text(state.toString());
+            //   },
+            // ),
+            BlocBuilder<CounterBloc, int>(
               builder: (context, state) {
                 return Text(state.toString());
               },
@@ -53,7 +60,8 @@ class MyCounterPage extends StatelessWidget {
         children: [
           FloatingActionButton(
             onPressed: () {
-              cubit.increment();
+              // cubit.increment();
+              counterBloc.add(AddEvent());
             },
             child: const Icon(Icons.add),
           ),
@@ -62,7 +70,8 @@ class MyCounterPage extends StatelessWidget {
           ),
           FloatingActionButton(
             onPressed: () {
-              cubit.decrement();
+              // cubit.decrement();
+              counterBloc.add(RemoveEvent());
             },
             child: const Icon(Icons.remove),
           ),
